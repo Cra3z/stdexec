@@ -774,7 +774,7 @@ namespace STDEXEC
   template <class _Ty, class _TaskEnv>
   struct STDEXEC_ATTRIBUTE(empty_bases) task<_Ty, _TaskEnv>::__promise
     : __task::__promise_base<__promise, _Ty>
-    , with_awaitable_senders<__promise>
+    , __detail::__with_awaitable_senders
   {
    private:
     struct __env;
@@ -872,7 +872,7 @@ namespace STDEXEC
       return __completed_awaiter{};
     }
 
-    template <sender _Sender>
+    template <sender_in<__env> _Sender>
     constexpr auto await_transform(_Sender&& __sndr) noexcept
     {
       using __schedule_sndr_t = schedule_result_t<start_scheduler_type>;

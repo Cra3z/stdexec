@@ -65,10 +65,7 @@ namespace STDEXEC
         return __continuation_.unhandled_stopped();
       }
 
-     private:
-      template <class>
-      friend struct STDEXEC::with_awaitable_senders;
-
+     protected:
       __with_awaitable_senders() = default;
 
       __coroutine_handle<> __continuation_{};

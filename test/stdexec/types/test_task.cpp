@@ -840,6 +840,15 @@ namespace
     STATIC_REQUIRE(std::same_as<domain_t, ex::__parallel_scheduler_domain>);
   }
 
+  TEST_CASE("test awaitable sender for task", "[types][task]")
+  {
+    using promise = ex::task<>::promise_type;
+    using sender1 = decltype(ex::read_env(ex::get_start_scheduler));
+    using sender2 = decltype(ex::read_env(ex::get_delegation_scheduler));
+    STATIC_REQUIRE(ex::__awaitable<sender1, promise>);
+    STATIC_REQUIRE(!ex::__awaitable<sender2, promise>);
+  }
+
   TEST_CASE("repro for NVIDIA/stdexec#2041", "[types][task]")
   {
     auto task = []() -> ex::task<void>
